@@ -13,14 +13,16 @@ app.use((req, res, next) => {
     
     let log = `${now}: ${req.method} ${req.url}`;
     fs.appendFile('server.log', log + '\n', (err) => {
-        console.log('Unable to append to server.log');
+        if (err) {
+            console.log('Unable to append to server.log');
+        }
     });
     next();
 });
 
-app.use((req, res, next) => {
-    res.render('maintenance');
-});
+// app.use((req, res, next) => {
+//     res.render('maintenance');
+// });
 
 app.use(express.static(__dirname + '/public'));
 
@@ -42,6 +44,12 @@ app.get('/', (req, res) => {
 app.get('/about', (req, res) => {
     res.render('about.hbs', {
         pageTitle: 'About Page'
+    });
+});
+
+app.get('/projects', (req, res) => {
+    res.render('projects', {
+        pageTitle: 'Portfolio Page'
     });
 });
 
